@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const TodoList = () => {
-	const [tarea, setTarea] = useState("");
+	const [tarea, setTarea] = useState();
 
 	const [TodoList, setTodoList] = useState([]);
 
@@ -9,7 +9,7 @@ const TodoList = () => {
 
 	const AddTask = e => {
 		e.preventDefault();
-		let TodoListAux = [...TodoList, tarea];
+		let TodoListAux = [...TodoList, { label: tarea, done: false }];
 		setTodoList(TodoListAux);
 		setTarea("");
 	};
@@ -55,8 +55,8 @@ const TodoList = () => {
 								onMouseOut={() => {
 									setMouseover();
 								}}>
-								<li className="border border-secondary rounded shadow-sm p-1 m-1 liFlex">
-									{element}
+								<li className="border-bottom border-secondary rounded shadow-sm p-1 m-1 liFlex">
+									{element.label}
 
 									<button
 										type="button"
