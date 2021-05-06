@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const TodoList = () => {
 	const [tarea, setTarea] = useState();
@@ -7,11 +7,20 @@ const TodoList = () => {
 
 	const [mouseover, setMouseover] = useState();
 
+	const [showError, setShowError] = useState(false);
+
+	useEffect(() => {
+		createUser();
+		getData();
+	}, []);
+
 	const AddTask = e => {
 		e.preventDefault();
+		createUser();
 		let TodoListAux = [...TodoList, { label: tarea, done: false }];
 		setTodoList(TodoListAux);
 		setTarea("");
+		subirData(TodoListAux);
 	};
 
 	const delet = i => {
@@ -19,7 +28,70 @@ const TodoList = () => {
 			if (i != index) return element;
 		});
 		setTodoList(newTodoList);
+		deletData(newTodoList);
+		createUser();
 	};
+
+	const getData = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/sebastian")
+			.then(resp => resp.json())
+			.then(data => setTodoList(data))
+			.catch(error => setShowError(true));
+	};
+
+	const subirData = updatedList => {
+		let updatedListToSend = JSON.stringify(updatedList);
+		let options = {
+			method: "PUT",
+			body: updatedListToSend,
+			headers: {
+				"Content-Type": "application/json"
+			}
+		};
+
+		fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/sebastian",
+			options
+		)
+			.then(resp => resp.json())
+			.then(data => console.log(data))
+			.catch(error => console.log(error));
+	};
+
+	const deletData = deletTodoList => {
+		let deletTodoListSend = deletTodoList;
+		let optionsDelet = {
+			method: "DELETE",
+			body: deletTodoListSend,
+			headers: {
+				"Content-Type": "application/json"
+			}
+		};
+
+		fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/sebastian",
+			optionsDelet
+		)
+			.then(resp => resp.json())
+			.then(data => console.log(data))
+			.catch(error => console.log(error));
+	};
+
+	const createUser = () => {
+		let optionsCreateUser = {
+			method: "POST",
+			body: []
+		};
+
+		fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/sebastian",
+			optionsCreateUser
+		)
+			.then(resp => resp.json())
+			.then(data => console.log(data))
+			.catch(error => console.log(error));
+	};
+
 	return (
 		<div className="container">
 			<h1> Todo List</h1>
@@ -56,7 +128,7 @@ const TodoList = () => {
 									setMouseover();
 								}}>
 								<li className="border-bottom border-secondary rounded shadow-sm p-1 m-1 liFlex">
-									{element.label}
+									{showError ? "Cargando..." : element.label}
 
 									<button
 										type="button"
