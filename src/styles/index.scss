@@ -1,5 +1,19 @@
 @import "~bootstrap/scss/bootstrap.scss";
 
+.liFlex{
+    display: flex;
+    justify-content: space-between;
+}
+
+.Boton {
+    
+    visibility: visible !important;
+}
+.noBoton {
+    
+    visibility: hidden;
+}
+
 /* 
 
     You can write your own styles here...

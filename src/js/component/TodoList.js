@@ -5,6 +5,8 @@ const TodoList = () => {
 
 	const [TodoList, setTodoList] = useState([]);
 
+	const [mouseover, setMouseover] = useState();
+
 	const AddTask = e => {
 		e.preventDefault();
 		let TodoListAux = [...TodoList, tarea];
@@ -23,10 +25,7 @@ const TodoList = () => {
 			<h1> Todo List</h1>
 			<form onSubmit={tarea ? AddTask : e => e.preventDefault()}>
 				<div className="form-row align-items-center">
-					<div className="col-auto">
-						<label className="sr-only" htmlFor="inlineFormInput">
-							Name
-						</label>
+					<div className="col-9">
 						<input
 							type="text"
 							className="form-control mb-2"
@@ -36,37 +35,49 @@ const TodoList = () => {
 							value={tarea}
 						/>
 					</div>
-				</div>
-
-				<div className="col-auto">
-					<button type="submit" className="btn btn-primary mb-2">
-						Submit
-					</button>
+					<div className="col-3">
+						<button type="submit" className="btn btn-primary mb-2">
+							Agregar tarea
+						</button>
+					</div>
 				</div>
 			</form>
 			<div className="list">
-				<ul>
+				<ul className="col-9 p-1 border border-dark rounded shadow-lg">
 					<li></li>
 					{TodoList.map((element, index) => {
 						return (
-							<div key={index}>
-								<li>
+							<div
+								key={index}
+								onMouseOver={() => {
+									setMouseover(index);
+								}}
+								onMouseOut={() => {
+									setMouseover();
+								}}>
+								<li className="border border-secondary rounded shadow-sm p-1 m-1 liFlex">
 									{element}
+
 									<button
+										type="button"
+										className={
+											"btn btn-outline-danger noBoton" +
+											(mouseover == index ? " Boton" : "")
+										}
 										onClick={() => {
 											delet(index);
 										}}>
-										delet
+										X
 									</button>
 								</li>
 							</div>
 						);
 					})}
-					<li>
+					<li className="p-1 m-1">
 						<p>
-							{TodoList
-								? TodoList.length + " Tareas Restantes"
-								: "No hay Tareas, agrega una"}
+							{TodoList.length == 0
+								? "No hay Tareas, agrega una"
+								: TodoList.length + " Tareas Restantes"}
 						</p>
 					</li>
 				</ul>
