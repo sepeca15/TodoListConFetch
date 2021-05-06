@@ -28,7 +28,7 @@ const TodoList = () => {
 			if (i != index) return element;
 		});
 		setTodoList(newTodoList);
-		deletData(newTodoList);
+		subirData(newTodoList);
 		createUser();
 	};
 
