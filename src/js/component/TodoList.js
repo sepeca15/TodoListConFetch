@@ -16,7 +16,6 @@ const TodoList = () => {
 
 	const AddTask = e => {
 		e.preventDefault();
-		createUser();
 		let TodoListAux = [...TodoList, { label: tarea, done: false }];
 		setTodoList(TodoListAux);
 		setTarea("");
@@ -29,7 +28,7 @@ const TodoList = () => {
 		});
 		setTodoList(newTodoList);
 		subirData(newTodoList);
-		createUser();
+		newTodoList.lengt == 0 ? createUser() : null;
 	};
 
 	const getData = () => {
@@ -39,6 +38,7 @@ const TodoList = () => {
 			.catch(error => setShowError(true));
 	};
 
+	//metodo Fetch
 	const subirData = updatedList => {
 		let updatedListToSend = JSON.stringify(updatedList);
 		let options = {
@@ -58,6 +58,7 @@ const TodoList = () => {
 			.catch(error => console.log(error));
 	};
 
+	//metodo Fetch
 	const deletData = deletTodoList => {
 		let deletTodoListSend = deletTodoList;
 		let optionsDelet = {
@@ -77,10 +78,11 @@ const TodoList = () => {
 			.catch(error => console.log(error));
 	};
 
+	//metodo Fetch
 	const createUser = () => {
 		let optionsCreateUser = {
 			method: "POST",
-			body: []
+			body: [{}]
 		};
 
 		fetch(
